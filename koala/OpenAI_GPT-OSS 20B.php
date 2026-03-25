@@ -1,92 +1,213 @@
-<?php session_start(); if ($_SESSION['horas'] > 72) { echo '<div class="alert alert-warning" role="alert"> Warning: The time spent on the project has exceeded the planned hours (72).</div>'; } ?> <!DOCTYPE html> <html lang="en"> <head> <meta charset="UTF-8"> <meta name="viewport" content="width=device-width, initial-scale=1.0"> <title>Granite - Mosaicos de Auditoria Dinamica</title>
-<!-- Bootstrap CSS -->
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet"
-    integrity="sha384-Zenh87qX0e+hQeCwWrybtwKeTx49deycuzc1uxi0Fp1uWYg+lA6QsY4gF4" crossorigin="anonymous">
-<!-- Font Awesome CSS -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
-    integrity="sha512-1ycn6Iaoq7NMjOHQTSOKiop0s93t3+uZQBpysdVleK2bDngCaMbM7ipXhoOXHYKUQQFvy2+vLATboGD9kqc"
-    crossorigin="anonymous" referrerpolicy="no-referrer" />
-<!-- Custom CSS -->
+<?php
+/* mosaicosgptoss20b.php
+ * ---------------------------------
+ * Mosaicos dinámicos para auditoría de archivos PHP.
+ * 
+ * Requisitos:
+ *  - Navegación superior y footer fijos (Bootstrap 4.6)
+ *  - Función `muestra_mosaicos_php($directorio)` que genera la rejilla.
+ *  - Iconos Font Awesome 5.x
+ *  - Colores según especificaciones.
+ *  - Badge con número de líneas del archivo.
+ *  - Aviso si el archivo se modificó en las últimas $x = 72 horas.
+ *
+ * Autor: [Tu nombre]
+ * Fecha: <?php echo date('Y-m-d'); ?>
+ */
+
+require_once __DIR__ . '/vendor/autoload.php'; // Si usas Composer para Font Awesome
+
+// -----------------------------
+// CONFIGURACIÓN
+// -----------------------------
+$excepciones = ['index.php', 'config.php'];
+$coloresAlternar = ['primary', 'secondary', 'success', 'warning', 'danger'];
+$x_horas = 72;
+
+// CSS personalizado (puedes moverlo a un archivo .css)
+echo <<<CSS
 <style>
-    .mosaic {
-        height: 150px;
-        border-radius: 8px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        color: white;
-        text-decoration: none;
-        font-size: 24px;
+/* Navegación y footer fijos */
+.fixed-top, .fixed-bottom { background:#f8f9fa; }
+.card-mosaico {
+    height:200px;
+    display:flex;
+    flex-direction:column;
+}
+.card-body {
+    flex-grow:1;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    font-size:3rem;
+}
+.card-footer {
+    text-align:center;
+    padding:.5rem .75rem;
+}
+</style>
+CSS;
+
+// -----------------------------
+// FUNCIONES
+// -----------------------------
+/**
+ * Devuelve el nombre del archivo con su extensión.
+ */
+function getFileName(string $path): string {
+    return basename($path);
+}
+
+/**
+ * Calcula la cantidad de líneas en un archivo.
+ */
+function lineCount(string $filePath): int {
+    if (!is_readable($filePath)) return 0;
+    return count(file($filePath, FILE_IGNORE_NEW_LINES));
+}
+
+/**
+ * Devuelve el tiempo transcurrido desde la última modificación del archivo
+ * en horas. Si > $x_horas devuelve true.
+ */
+function modifiedInLastHours(string $filePath, int $x): bool {
+    if (!file_exists($filePath)) return false;
+    $modTime = filemtime($filePath);
+    return (time() - $modTime) <= ($x * 3600);
+}
+
+/**
+ * Genera la rejilla de mosaicos para un directorio dado.
+ *
+ * @param string $directorio Directorio a explorar
+ * @return string HTML generado
+ */
+function muestra_mosaicos_php(string $directorio): string {
+    global $excepciones, $coloresAlternar;
+
+    // Escape y normalizar ruta
+    $dir = rtrim($directorio, DIRECTORY_SEPARATOR);
+    if (!is_dir($dir)) return '<div class="alert alert-danger">Directorio no encontrado.</div>';
+
+    // Comienzo del contenedor
+    $html = '<div class="container-fluid py-3"><div class="row justify-content-center">';
+
+    // ---------- Mosaico del directorio ----------
+    $nombreDir = basename($dir) ?: 'Raíz';
+    $iconoDir   = ($directorio === '..') ? 'fa-home' : 'fa-folder-open'; // Ejemplo
+    $html .= <<<HTML
+<div class="col-6 col-md-3 col-lg-2 mb-4">
+  <div class="card card-mosaico bg-white text-dark shadow-sm">
+    <div class="card-body d-flex justify-content-center align-items-center">
+      <i class="fas {$iconoDir}"></i>
+    </div>
+    <div class="card-footer font-weight-bold">{$nombreDir}</div>
+  </div>
+</div>
+HTML;
+
+    // ---------- Mosaicos de archivos ----------
+    $files = scandir($dir);
+    sort($files); // Orden alfabético
+    $colorIndex = 0; // Para alternar colores
+
+    foreach ($files as $file) {
+        if (in_array(strtolower($file), ['.', '..'])) continue;
+        if (!is_file("$dir/$file")) continue; // Solo archivos
+
+        // Sólo PHP
+        if (strtolower(pathinfo($file, PATHINFO_EXTENSION)) !== 'php') continue;
+
+        $fullPath = "$dir/$file";
+        $nombreArchivo = getFileName($fullPath);
+        $lineas = lineCount($fullPath);
+
+        // Determinar color e icono
+        if (in_array($nombreArchivo, $excepciones)) {
+            $bgColor   = 'bg-dark text-white';
+            $icono     = 'fa-database'; // Icono de base de datos
+        } else {
+            $colorKey  = $coloresAlternar[$colorIndex % count($coloresAlternar)];
+            $bgColor   = "bg-{$colorKey} text-white";
+            $icono     = 'fa-file-code';
+            $colorIndex++;
+        }
+
+        // Aviso de modificación reciente
+        $aviso = '';
+        if (modifiedInLastHours($fullPath, 72)) {
+            $aviso = '<span class="badge badge-light">Modificado < 72h</span>';
+        }
+
+        $html .= <<<HTML
+<div class="col-6 col-md-3 col-lg-2 mb-4">
+  <a href="{$fullPath}" target="_blank" class="text-decoration-none">
+    <div class="card card-mosaico {$bgColor} shadow-sm">
+      <div class="card-body d-flex justify-content-center align-items-center">
+        <i class="fas {$icono}"></i>
+      </div>
+      <div class="card-footer font-weight-bold">
+          {$nombreArchivo}
+          <br><span class="badge badge-light">{$lineas} líneas</span> {$aviso}
+      </div>
+    </div>
+  </a>
+</div>
+HTML;
     }
 
-    .mosaic.bg-white { background-color: white; }
-    .mosaic.bg-dark { background-color: #333; }
-    .mosaic.primary { background-color: #007bff; }
-    .badge-lines { background-color: rgba(255, 255, 255, 0.8); color: black; border-radius: 16px; padding: 3px 8px; }
-</style>
-</head> <body>
-<!-- Navigation Bar -->
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <div class="container">
-        <a class="navbar-brand" href="#">
-            <i class="fas fa-home"></i>&nbsp; Directory
-        </a>
-    </div>
+    // Cierre del contenedor
+    $html .= '</div></div>';
+
+    return $html;
+}
+
+// -----------------------------
+// EJECUCIÓN (ejemplo)
+// -----------------------------
+?>
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>Mosaicos de Auditoría PHP</title>
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.6.0/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+</head>
+<body>
+
+<!-- Navegación superior fija -->
+<nav class="navbar navbar-expand-lg navbar-light fixed-top shadow-sm">
+  <a class="navbar-brand" href="#">Koala Auditoría</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault"
+    aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div class="collapse navbar-collapse" id="navbarsExampleDefault">
+    <ul class="navbar-nav mr-auto">
+      <!-- Puedes añadir más enlaces -->
+    </ul>
+  </div>
 </nav>
 
-<!-- Main Content -->
-<div class="container mt-4">
+<!-- Contenido principal -->
+<main role="main" style="padding-top:70px;">
+  <?php
+  echo muestra_mosaicos_php(".");
+  echo muestra_mosaicos_php("..");
+  ?>
+</main>
 
-    <?php
-
-    function muestra_mosaicos_php($directorio) {
-        $excepciones = ['index.php', 'config.php'];
-
-        echo '<div class="row">';
-        $handle = opendir($directorio);
-        while (($file = readdir($handle)) !== false) {
-            if (is_dir("$directorio/$file")) {
-                echo '<div class="col-6 col-md-3 col-lg-2 mosaico bg-white text-dark">';
-                echo '<i class="fas fa-folder"></i>';
-                echo '<span>' . htmlspecialchars($file) . '</span>';
-                echo '</div>';
-            } elseif (is_file("$directorio/$file") && pathinfo($file, PATHINFO_EXTENSION) === 'php') {
-                $color = match(true) {
-                    in_array($file, $excepciones) => 'bg-dark',
-                    default => ['primary', 'secondary', 'success', 'warning', 'danger'][count(file($directorio . '/' . $file)) % 5],
-                };
-
-                echo '<div class="col-6 col-md-3 col-lg-2 mosaico bg-' . $color . '">';
-                echo '<i class="fas fa-database"></i>';
-                echo '<span>' . htmlspecialchars($file) . '</span>';
-                echo '<span class="badge badge-lines">' . count(file($directorio . '/' . $file)) . '</span>';
-
-                echo '<div style="cursor: pointer;" data-target="_blank" onclick="location.href=\'';
-                echo htmlspecialchars($directorio . '/' . $file);
-                echo '\';"></div>';
-
-                echo '</div>';
-            }
-        }
-        closedir($handle);
-        echo '</div>';
-    }
-
-    muestra_mosaicos_php('.');
-    ?>
-
-</div>
-
-<!-- Footer -->
-<footer class="bg-dark text-white text-center py-3">
-    <p>&copy; 2023 Granite - Auditoria de Archivos Móvil y Escritorio</p>
+<!-- Footer fijo -->
+<footer class="footer fixed-bottom py-2">
+  <div class="container text-center">
+    <span class="text-muted">© <?= date('Y') ?> Koala. Todos los derechos reservados.</span>
+  </div>
 </footer>
 
-<!-- Bootstrap JS & Dependencias (incluye Popper.js) -->
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"
-    integrity="sha384-oBqDVmMz4fnFO9gybBud7RduPu/z+p+/nLVM8mE0X5eisvH7i7M52g=="
-    crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.min.js"
-    integrity="sha384-ODmDIVzN+pFdexxHLPt1bJY0gLvJu6r97kuHQCFL7ugAiraBSIm/6CPn+7ZlH25"
-    crossorigin="anonymous"></script>
-</body> </html>
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.6.0/js/bootstrap.min.js"></script>
+</body>
+</html>
