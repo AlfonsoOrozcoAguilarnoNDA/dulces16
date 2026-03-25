@@ -20,20 +20,34 @@ Este código es el producto de una auditoría implacable para separar a los char
 3. **Precisión Técnica:** Generación de PHP 8.x Procedural para el **Proyecto Koala** (Mosaicos Dinámicos).
 
 > ⚠️ **Nota Crítica:** El código aquí publicado es "crudo". Refleja exactamente lo que las IAs entregaron. Para corregir las "alucinaciones" de rutas o CDNs, se recomienda usar el snippet [**Cirujano**](https://github.com/AlfonsoOrozcoAguilarnoNDA/snippetsMIT/blob/main/cirujano_engine.php).
+---
+## 🐨 Sección Koala: Auditoría de Mosaicos Dinámicos (Round 1)
+
+En esta fase se evaluó la capacidad de los modelos para generar una interfaz de mosaicos (tiles) funcional y estética bajo el stack: **PHP 8.x Procedural, Bootstrap 4.6 y Font Awesome 5.x**.
+
+### 📊 Tabla de Resultados Técnicos
+
+| Modelo | Puntuación | Estado | Observación Principal |
+| :--- | :---: | :---: | :--- |
+| **OpenAI GPT-OSS 20B** | **10/10** | 🚀 Funcional | Lógica perfecta y tiempos exactos. Es el motor más fiable. |
+| **Qwen 3.0 Coder 30B** | **9/10** | 💅 Estético | El mejor diseño visual, aunque falló levemente en la lógica de tiempo. |
+| **Granite 3.1** | **4/10** | ⚠️ Inconsistente | Lógica de sesión innecesaria y diseño visual deficiente. |
+| **Minimax 2507** | **0/10** | ❌ Fallido | No renderizó nada. Código incompleto o con errores críticos. |
 
 ---
 
-## 📂 Resultados del Round 1 (Marzo 2026)
+### 🔍 Análisis Detallado de los Pesos Pesados
 
-| Archivo | Modelo (IA) | Categoría | Veredicto |
-|---|---|---|---|
-Por definir, esteo es place holder.
-| `koala_gemma3_4b.php`| **Gemma 3 4B** | Round 1b (Dulces 16) | **Líder en 16GB.** Rápido y preciso. |
-| `koala_gpt_oss.php` | **GPT-OSS 20B** | Round 1b (Técnico) | Mención honorífica: Equilibrio y sobriedad. |
+#### 1. OpenAI GPT-OSS 20B (El Cerebro)
+* **Fortalezas:** Cumplió rigurosamente con el objetivo de auditoría. El manejo de las 72 horas y la detección de archivos es impecable. 
+* **Debilidad:** Estética sobria, pero funcional para entornos de baja distracción (transporte público).
+* **Veredicto:** Es el código que se queda en producción por su confiabilidad técnica.
 
-
-*(Incluye los 10 archivos correspondientes a las 10 IAs iniciales, etapa maquetado y etapa mosaicos (koala)
+#### 2. Qwen 3.0 Coder 30B (La Fachada)
+* **Fortalezas:** Logró la mejor rejilla de mosaicos. Los colores y la disposición `col-6` para móviles son muy cómodos a la vista.
+* **Debilidad:** "Falso Positivo" en antigüedad. Reportó archivos como antiguos cuando no lo eran, probablemente por un desf
 ---
+
 Prompt Maquetado :
 
 Prueba de maquetado y lógica php
