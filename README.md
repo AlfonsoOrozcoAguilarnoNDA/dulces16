@@ -27,14 +27,79 @@ Este código es el producto de una auditoría implacable para separar a los char
 
 | Archivo | Modelo (IA) | Categoría | Veredicto |
 |---|---|---|---|
-| `koala_qwen_30b.php` | **Qwen 2.5 30B Coder** | Round 1b (Técnico) | **Ganador Absoluto.** Código limpio y funcional. |
-| `irene_qwen_30b.txt` | **Qwen 2.5 30B Coder** | Round 1c (Emocional) | **Ganador Absoluto.** Modo Romántico envolvente. |
+Por definir, esteo es place holder.
 | `koala_gemma3_4b.php`| **Gemma 3 4B** | Round 1b (Dulces 16) | **Líder en 16GB.** Rápido y preciso. |
 | `koala_gpt_oss.php` | **GPT-OSS 20B** | Round 1b (Técnico) | Mención honorífica: Equilibrio y sobriedad. |
-| `koala_grok_sim.php` | Grok (Modo Haydee) | Gráficos/Estructura | Demasiado estilizado. Perdió la esencia humana. |
 
-*(Incluye los 15 archivos correspondientes a las 10 IAs iniciales y sus variantes de rol)*
 
+*(Incluye los 15 archivos correspondientes a las 10 IAs iniciales, etapa maquetado y etapa mosaicos (koala)
+---
+Prompt Maquetado :
+
+Prueba de maquetado y lógica php
+Reglas : 
+•	Stack: Bootstrap 4.6.x , font awesome, jqquery completo no version slim.
+•	 Cabecera navbar fija, con una opción de enlace fija que lleve a google en target blank, un boton de salir y que tu nombre de modelo aparezca en un jumbotron. Debe haber un menu dropdown con tres opciones , el menu se llama opciones y las opciones son perfil, ajustes y ayuda.
+•	En el footer, que debe estar fijo, las palabras derechos reservados.
+•	En el área de en medio una lista de todos los archivos php y html o html del directorio actual, y su tamaño. 
+•	Generar todo en un solo archivo.
+•	Gracias
+•	Fin de Prompt
+---
+
+Prompt Mosaico Koala:
+
+# PROMPT PARA LA IA (PASO 2: MOSAICOS DE AUDITORÍA DINÁMICOS)
+
+Contexto: Desarrollo de " Koala". PHP 8.x Procedural, Bootstrap 4.6, Font Awesome 5.x.
+
+Objetivo: Crea un archivo se que llame qwen3coder30b.php , incluyendo barra de navegacion superior y footer fijos.
+
+La idea es una función PHP llamada muestra_mosaicos_php($directorio) que genere una rejilla de mosaicos (tiles) para auditar archivos en un entorno móvil (transporte público) y de escritorio.
+
+Especificaciones de Diseño e Iconografía:
+
+Libertad Creativa: Tú decides los iconos de Font Awesome más adecuados para representar los archivos, directorios y bases de datos. Busca una estética profesional y limpia.
+
+Mosaico de Directorio (El Índice):
+
+El primer mosaico debe ser blanco (bg-white), texto negro.
+
+Debe mostrar el nombre del directorio actual y un icono representativo de "Carpeta" o "Home". Sin badge y sin enlace.
+
+Mosaicos de Archivos PHP:
+
+Filtra solo archivos .php.
+
+Lógica de Colores: Usa un array de excepciones $excepciones = ['index.php', 'config.php']. Si el archivo está ahí, el fondo debe ser negro (bg-dark) con un icono de base de datos.
+
+Para los demás archivos, alterna secuencialmente entre los colores: primary, secondary, success, warning y danger.
+
+Interactividad y Target:
+
+Cada mosaico de archivo (incluyendo las excepciones) debe ser un enlace que abra el archivo en una ventana nueva (target="_blank").
+
+El área de clic debe ser todo el mosaico o, al menos, el icono central.
+
+Información Adicional:
+
+Muestra el nombre del archivo en la parte inferior.
+
+Incluye un badge de Bootstrap que indique el número de líneas del archivo (calculado con count(file())).
+
+Estructura Técnica:
+
+Usa columnas de Bootstrap (col-6 col-md-3 col-lg-2) para que se vean 2 por fila en móvil.
+
+Define una altura fija para los mosaicos para mantener la simetría de la rejilla.
+
+Proporciona la función y las llamadas: echo muestra_mosaicos_php("."); y echo muestra_mosaicos_php("..");.
+
+Deseable considerar poner un aviso si se modifico en el numero de horas estipulado $x = 72 de base.
+
+Gracias !
+
+TERMINA PROMPT ....
 ---
 
 ## 🛠️ Stack Tecnológico Exigido
