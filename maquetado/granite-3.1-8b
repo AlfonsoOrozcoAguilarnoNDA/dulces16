@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.6.0/css/bootstrap.min.css">
+    <!-- Font Awesome -->
+    <script src="https://kit.fontawesome.com/your_font_awesome_id.js"></script>
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+
+    <!-- Navbar fixed at the top -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="#">Mi Modelo</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="https://www.google.com" target="_blank"><i class="fas fa-search"></i></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#"><i class="fas fa-sign-out-alt"></i></a>
+                </li>
+                <div class="navbar-text">
+                    <h1 class="display-4">Mi Nombre de Modelo</h1>
+                </div>
+            </ul>
+            <div class="navbar-nav ml-auto">
+                <div class="btn-group">
+                    <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Opciones
+                    </button>
+                    <div class="dropdown-menu">
+                        <a class="dropdown-item" href="#">Perfil</a>
+                        <a class="dropdown-item" href="#">Ajustes</a>
+                        <a class="dropdown-item" href="#">Ayuda</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Jumbotron -->
+    <div class="jumbotron">
+        <h1 class="display-4">Bienvenido a mi página web</h1>
+        <p class="lead">Este es un ejemplo de una página web con Bootstrap 4.6, Font Awesome y jQuery.</p>
+    </div>
+
+    <!-- Footer fixed at the bottom -->
+    <footer class="footer fixed-bottom">
+        <p class="text-center">© Derechos reservados</p>
+    </footer>
+
+    <!-- Lista de archivos en el directorio actual -->
+    <div class="container mt-5">
+        <?php
+            $files = scandir('.'); // Obtener todos los archivos y carpetas del directorio actual
+            echo "<ul>";
+            foreach ($files as $file) {
+                if (is_file($file)) {
+                    $size = filesize($file);
+                    echo "<li>$file - " . human_filesize($size) . "</li>";
+                }
+            }
+            echo "</ul>";
+
+            function human_filesize($bytes, $decimals = 2) {
+                $units = array('B', 'KB', 'MB', 'GB', 'TB');
+
+                for ($i = 0; $bytes >= 1024 && $i < count($units); $i++)
+                    $bytes /= 1024;
+
+                return round($bytes, $decimals) . " " . $units[$i];
+            }
+        ?>
+    </div>
+
+    <!-- Bootstrap JS and dependencies -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.1/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.6.0/js/bootstrap.min.js"></script>
+</body>
+</html>
+
