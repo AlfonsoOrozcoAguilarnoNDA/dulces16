@@ -1,6 +1,6 @@
 # 🌪️ Embudo de Supervivencia: Round 1 (Irene & Koala)
 
-![Logo de Vibe Coding México](logo.jpg)
+![Logo de Vibe Coding México](embudo.jpg)
 
 [![PHP Version](https://img.shields.io/badge/php-%3E%3D8.x-8892bf.svg)](https://www.php.net/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://opensource.org/licenses/MIT)
@@ -32,7 +32,7 @@ Por definir, esteo es place holder.
 | `koala_gpt_oss.php` | **GPT-OSS 20B** | Round 1b (Técnico) | Mención honorífica: Equilibrio y sobriedad. |
 
 
-*(Incluye los 15 archivos correspondientes a las 10 IAs iniciales, etapa maquetado y etapa mosaicos (koala)
+*(Incluye los 10 archivos correspondientes a las 10 IAs iniciales, etapa maquetado y etapa mosaicos (koala)
 ---
 Prompt Maquetado :
 
