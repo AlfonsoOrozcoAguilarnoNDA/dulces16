@@ -38,13 +38,12 @@ Prompt Maquetado :
 
 Prueba de maquetado y lógica php
 Reglas : 
-•	Stack: Bootstrap 4.6.x , font awesome, jqquery completo no version slim.
-•	 Cabecera navbar fija, con una opción de enlace fija que lleve a google en target blank, un boton de salir y que tu nombre de modelo aparezca en un jumbotron. Debe haber un menu dropdown con tres opciones , el menu se llama opciones y las opciones son perfil, ajustes y ayuda.
-•	En el footer, que debe estar fijo, las palabras derechos reservados.
-•	En el área de en medio una lista de todos los archivos php y html o html del directorio actual, y su tamaño. 
-•	Generar todo en un solo archivo.
-•	Gracias
-•	Fin de Prompt
+*	Stack: Bootstrap 4.6.x , font awesome, jqquery completo no version slim.
+*	 Cabecera navbar fija, con una opción de enlace fija que lleve a google en target blank, un boton de salir y que tu nombre de modelo aparezca en un jumbotron. Debe haber un menu dropdown con tres opciones , el menu se llama opciones y las opciones son perfil, ajustes y ayuda.
+*	En el footer, que debe estar fijo, las palabras derechos reservados.
+*	En el área de en medio una lista de todos los archivos php y html o html del directorio actual, y su tamaño. 
+*	Generar todo en un solo archivo. Gracias
+*	Fin de Prompt
 ---
 
 Prompt Mosaico Koala:
@@ -53,39 +52,37 @@ Prompt Mosaico Koala:
 
 Contexto: Desarrollo de " Koala". PHP 8.x Procedural, Bootstrap 4.6, Font Awesome 5.x.
 
-Objetivo: Crea un archivo se que llame qwen3coder30b.php , incluyendo barra de navegacion superior y footer fijos.
-
-La idea es una función PHP llamada muestra_mosaicos_php($directorio) que genere una rejilla de mosaicos (tiles) para auditar archivos en un entorno móvil (transporte público) y de escritorio.
-
-Especificaciones de Diseño e Iconografía:
+*Objetivo: Crea un archivo se que llame XXXXXX.php , incluyendo barra de navegacion superior y footer fijos.
+*La idea es una función PHP llamada muestra_mosaicos_php($directorio) que genere una rejilla de mosaicos (tiles) para auditar archivos en un entorno móvil (transporte público) y de escritorio.
+*Especificaciones de Diseño e Iconografía:
 
 Libertad Creativa: Tú decides los iconos de Font Awesome más adecuados para representar los archivos, directorios y bases de datos. Busca una estética profesional y limpia.
 
-Mosaico de Directorio (El Índice):
+* Mosaico de Directorio (El Índice):
 
-El primer mosaico debe ser blanco (bg-white), texto negro.
+*El primer mosaico debe ser blanco (bg-white), texto negro.
 
-Debe mostrar el nombre del directorio actual y un icono representativo de "Carpeta" o "Home". Sin badge y sin enlace.
+*Debe mostrar el nombre del directorio actual y un icono representativo de "Carpeta" o "Home". Sin badge y sin enlace.
 
-Mosaicos de Archivos PHP:
+*Mosaicos de Archivos PHP:
 
-Filtra solo archivos .php.
+*Filtra solo archivos .php.
 
-Lógica de Colores: Usa un array de excepciones $excepciones = ['index.php', 'config.php']. Si el archivo está ahí, el fondo debe ser negro (bg-dark) con un icono de base de datos.
+*Lógica de Colores: Usa un array de excepciones $excepciones = ['index.php', 'config.php']. Si el archivo está ahí, el fondo debe ser negro (bg-dark) con un icono de base de datos.
 
-Para los demás archivos, alterna secuencialmente entre los colores: primary, secondary, success, warning y danger.
+*Para los demás archivos, alterna secuencialmente entre los colores: primary, secondary, success, warning y danger.
 
 Interactividad y Target:
 
-Cada mosaico de archivo (incluyendo las excepciones) debe ser un enlace que abra el archivo en una ventana nueva (target="_blank").
+*Cada mosaico de archivo (incluyendo las excepciones) debe ser un enlace que abra el archivo en una ventana nueva (target="_blank").
 
-El área de clic debe ser todo el mosaico o, al menos, el icono central.
+*El área de clic debe ser todo el mosaico o, al menos, el icono central.
 
 Información Adicional:
 
-Muestra el nombre del archivo en la parte inferior.
+*Muestra el nombre del archivo en la parte inferior.
 
-Incluye un badge de Bootstrap que indique el número de líneas del archivo (calculado con count(file())).
+*Incluye un badge de Bootstrap que indique el número de líneas del archivo (calculado con count(file())).
 
 Estructura Técnica:
 
