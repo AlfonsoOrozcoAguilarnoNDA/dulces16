@@ -35,6 +35,41 @@ En esta fase se evaluó la capacidad de los modelos para generar una interfaz de
 | **Minimax 2507** | **0/10** | ❌ Fallido | No renderizó nada. Código incompleto o con errores críticos. |
 
 ---
+## 🏗️ Sección Maquetado: Estructura y Control Clásico (Round 1)
+
+Evaluación de la capacidad de los modelos para seguir restricciones de diseño rígidas: **Bootstrap 4.6, Jumbotron, Navbar fija** y lógica de lectura de sistema de archivos en PHP 8.x.
+
+### 📊 Tabla de Resultados Técnicos (Maquetado)
+
+| Modelo | Puntuación | Estado | Observación Principal |
+| :--- | :---: | :---: | :--- |
+| **Qwen 3.0 Coder 30B** | **9/10** | 🏆 Ganador | Todo funciona correctamente. Estética superior y lógica impecable. |
+| **Granite 3.1** | **6/10** | 🟦 Básico | Diseño funcional tras corregir CDNs, pero visualmente muy simple. |
+| **OpenAI GPT-OSS 20B** | **0/10** | ❌ Fallido | No detectó archivos .php/.html en el directorio. |
+| **Qwen 2.5-Coder 1.5B**| **1/10** | ⚠️ Incompleto | Estética aceptable, pero la Navbar no es fija y omitió el tamaño. |
+| **Gemma-3-4b** | **1/10** | 💀 Inútil | Reportó tamaño 0 para todos los archivos. Fallo crítico de lógica. |
+
+---
+Maquetado
+### 🔍 Análisis de la Auditoría Round 1 Maquetado
+
+#### 1. Qwen 3.0 Coder 30B (La Excelencia)
+* **Resultado:** Es el único que interpretó correctamente todas las restricciones. La Navbar se mantiene fija (`fixed-top`), el Jumbotron es proporcional y el listado de archivos incluye el tamaño real.
+* **Veredicto:** Funciona.
+
+#### 2. Granite 3.1 (El Superviviente)
+* **Resultado:** Logró un maquetado decente. Aunque es básico, es el único (fuera de Qwen) que entregó un archivo funcional tras normalizar las rutas de los CDNs.
+
+#### 3. OpenAI GPT-OSS 20B (Fallo de Lógica)
+* **Resultado:** A pesar de su buen desempeño en otras pruebas, aquí falló al no encontrar archivos en el directorio. 
+* **Diagnóstico:** Probablemente usó una ruta absoluta incorrecta o un filtro de `scandir` incompatible con el entorno.
+
+#### 4. Qwen 2.5-Coder 1.5B (Inconsistencia)
+* **Fallo:** Aunque el código "se ve bien", ignoró la instrucción de Navbar fija y no implementó la función `filesize()`, entregando un listado incompleto.
+
+#### 5. Gemma-3-4b (Perfil de Rol)
+* **Resultado:** Fracaso total en lógica de programación (reportó 0 en tamaño )
+---
 
 ### 🔍 Análisis Detallado de los Pesos Pesados
 
